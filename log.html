@@ -17,6 +17,10 @@
         table > tr {
             padding: 10px;
         }
+        .info {
+            border: 1px solid;
+            padding: 10px;
+        }
     </style>
 </head>
 <body class="dark">
@@ -33,6 +37,10 @@
 
             var record = jsonData.game
             var log = ''
+            var kill = 0
+            var death = 0
+            var kda = ''
+            var win = [0,0]
             for (i of record) {
                 log += `<tr>
                         <td>${i.champ}</td>
@@ -40,8 +48,18 @@
                         <td>${i.kda}</td>
                         <td>${i.etc}</td>
                     </tr>`
+                kill += parseInt(i.kda.split('/')[0])+parseInt(i.kda.split('/')[2])/2
+                death += parseInt(i.kda.split('/')[1])
+                if (i.result == '승') {
+                    win[0] ++
+                }
+                win[1] ++
             }
-            
+            if (death == 0) {
+                kda = '퍼펙트 게임!'
+            } else {
+                kda = kill/death
+            }
             var template = `<div class="game">
             <table class="table">
                 <thead class="thead-dark">
@@ -57,8 +75,18 @@
                     ${log}
                 </tbody>
             </table>
+            <h3>게임 및 스트리밍 정보</h3>
             <div class="info">
-                <a href="${jsonData.info.youtube}"> 유튜브 영상 바로가기</a>
+                <div>평균 KDA : ${Math.round(kda*100)/100}</div>
+                <div>승률 : ${Math.round(win[0]/win[1]*10000)/100}%<div>
+                ${
+                    Object.keys(jsonData.info).map(function(e) {
+                        if (e == 'youtube') {
+                            return `<a href="${jsonData.info.youtube}"> 유튜브 영상 바로가기</a>`
+                        } return `<div>${e} : ${jsonData.info[e]}</div>`
+                    })
+
+                }
             </div>
         </div>`
         document.querySelector('.main').innerHTML += template
