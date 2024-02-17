@@ -84,7 +84,7 @@
                         if (e == 'youtube') {
                             return `<a href="${jsonData.info.youtube}"> 유튜브 영상 바로가기</a>`
                         } return `<div>${e} : ${jsonData.info[e]}</div>`
-                    })
+                    }).join('')
 
                 }
             </div>

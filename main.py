@@ -21,7 +21,7 @@ def get_log(date:str):
                 'champ': game[0],
                 'result' : game[1],
                 'kda' : game[2],
-                'etc' : game[3]
+                'etc' : ' '.join(game[3:])
             })
     return log
 
@@ -31,6 +31,6 @@ def save_json(filename, obj):
     open(f'./json/{filename}.json', 'w', encoding='utf-8').write(data)
     return
 
-date = '20240217'
+date = '20240218'
 data = get_log(date)
 save_json(date, data)
