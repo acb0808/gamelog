@@ -31,6 +31,6 @@ def save_json(filename, obj):
     open(f'./json/{filename}.json', 'w', encoding='utf-8').write(data)
     return
 
-date = '20240218'
+date = '20240220'
 data = get_log(date)
 save_json(date, data)
